@@ -1,12 +1,8 @@
-import { Command, flags } from "@oclif/command";
-import fs from "fs";
+import { Command, flags } from '@oclif/command'
 // had to install @types/ncp
-import ncp from "ncp";
-import { promisify } from "util";
-import path from "path";
+import ncp from 'ncp'
+import path from 'path'
 
-const access = promisify(fs.access);
-const copy = promisify(ncp);
 // tab width
 // tabs
 // semicolons
@@ -15,35 +11,31 @@ const copy = promisify(ncp);
 //
 // edit the default file?
 class PrettierConfig extends Command {
-  static description = "describe the command here";
+  static description =
+    'Add copy of personal default .prettierrc file to current directory'
 
   static flags = {
     // add --version flag to show CLI version
-    version: flags.version({ char: "v" }),
-    help: flags.help({ char: "h" }),
-    // flag with a value (-n, --name=VALUE)
-    name: flags.string({ char: "n", description: "name to print" }),
-    // flag with no value (-f, --force)
-    force: flags.boolean({ char: "f" }),
-  };
+    version: flags.version({ char: 'v' }),
+    help: flags.help({ char: 'h' }),
+  }
 
-  static args = [{ name: "file" }];
+  //static args = [{ name: "file" }];
 
   async run() {
-    const { args, flags } = this.parse(PrettierConfig);
+    const { args, flags } = this.parse(PrettierConfig)
 
-    const currentDir = __dirname;
-    const targetDir = process.cwd();
-    const templateDir = path.resolve(currentDir, "../templates");
+    const currentDir = __dirname
+    const targetDir = process.cwd()
+    const templateDir = path.resolve(currentDir, '../templates')
 
-    ncp(templateDir, targetDir, (err) => {
+    ncp(templateDir, targetDir, err => {
       if (err) {
-        console.error(err);
+        console.error(err)
+      } else {
+        console.log('default .prettierrc copied to folder')
       }
-    });
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`);
-    }
+    })
   }
 }
-export = PrettierConfig;
+export = PrettierConfig
